@@ -21,7 +21,7 @@ router.route('/concerts').get((req, res) => {//ma zwracać całą zawartość ta
     }
   }
   
-  router.route('/concerts/:id').put((req, res) => {//modyfikujemy atrybuty author i text elementu tablicy o pasującym :id. Załóż, że body otrzymane w requeście będzie obiektem z atrybutami author i text.
+  router.route('/concerts/:id').put((req, res) => {//modyfikujemy atrybuty o pasującym :id. 
     changePerformerAndGenre(db.db.concerts[req.params.id -1].id, req.body.performer, req.body.genre);
     console.log('db.db.concerts:', db.db.concerts);
     res.json({ message: 'OK' });
