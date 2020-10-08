@@ -1,7 +1,7 @@
 const express = require('express');
 var cors = require('cors');
 
-const app = express(); 
+const app = express();
 // import routes
 const testimonialsRoutes = require('./routes/testimonials.routes');
 const concertsRoutes = require('./routes/concerts.routes');
@@ -15,9 +15,9 @@ app.use('/api', concertsRoutes); // add concerts routes to server.
 app.use('/api', seatsRoutes); // add seatsRoutes routes to server.
 
 app.use((req, res) => {
-  res.status(404).json({ message: 'Not found...' }); 
+  res.status(404).json({ message: 'Not found...' });
 });
 
-app.listen(8000, () => { 
-  console.log('Server is running on port: 8000'); 
+app.listen(8000, () => {
+  console.log('Server is running on port: 8000');
 });
