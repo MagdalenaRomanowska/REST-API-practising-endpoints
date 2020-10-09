@@ -8,14 +8,16 @@ router.route('/concerts').get((req, res) => {//ma zwracać całą zawartość ta
 });
 
 router.route('/concerts/:id').get((req, res) => { //zwracamy tylko jeden element tablicy, zgodny z :id.
-  res.json(db.db.concerts[req.params.id - 1]); //https://expressjs.com/en/api.html#res
+  let id = req.params.id; //id z adresu np http://localhost:8000/api/concerts/2 to będzie 2.
+  let [concert] = db.db.concerts.filter(x => x.id == id);
+  res.json(concert); //https://expressjs.com/en/api.html#res
 });
 
 router.route('/concerts/:id').put((req, res) => {//modyfikujemy atrybuty o pasującym :id. 
   let id = req.params.id; //id z adresu np http://localhost:8000/api/concerts/2 to będzie 2.
-  let newArray = (db.db.concerts).filter(x => x.id == id);  //https://stackoverflow.com/questions/7364150/find-object-by-id-in-an-array-of-javascript-objects
-  newArray[0].performer = req.body.performer;
-  newArray[0].genre = req.body.genre;
+  let [concert] = db.db.concerts.filter(x => x.id == id);  //https://stackoverflow.com/questions/7364150/find-object-by-id-in-an-array-of-javascript-objects
+  concert.performer = req.body.performer;
+  concert.genre = req.body.genre;
   res.json({ message: 'OK' });
 });
 
@@ -31,8 +33,9 @@ router.route('/concerts').post((req, res) => {//dodajemy nowy element do tablicy
 });
 
 router.route('/concerts/:id').delete((req, res) => {//usuwamy z tablicy wpis o podanym id.
-  db.db.concerts.splice(req.params.id - 1, 1);
-  console.log('db.db.concerts:', db.db.concerts);
+  let id = req.params.id; //id z adresu np http://localhost:8000/api/concerts/2 to będzie 2.
+  let concertIndex = db.db.concerts.findIndex(x => x.id == id); //findIndex metoda zwraca 1szy znaleziony indeks elementu.
+  db.db.concerts.splice(concertIndex, 1);
   res.json({ message: 'OK' });
 });
 

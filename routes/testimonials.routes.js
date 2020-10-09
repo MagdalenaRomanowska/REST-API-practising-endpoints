@@ -19,14 +19,16 @@ router.route('/testimonials/random').get((req, res) => { //zwracamy losowy eleme
 });
 
 router.route('/testimonials/:id').get((req, res) => { //zwracamy tylko jeden element tablicy, zgodny z :id.
-  res.json(db.db.testimonials[req.params.id - 1]); //https://expressjs.com/en/api.html#res
+  let id = req.params.id; //id z adresu np http://localhost:8000/api/testimonials/5 to będzie 5.
+  let [testimonial] = db.db.testimonials.filter(x => x.id == id);
+  res.json(testimonial); //https://expressjs.com/en/api.html#res
 });
 
 router.route('/testimonials/:id').put((req, res) => {//modyfikujemy atrybuty author i text elementu tablicy o pasującym :id. Załóż, że body otrzymane w requeście będzie obiektem z atrybutami author i text.
   let id = req.params.id; //id z adresu np http://localhost:8000/api/testimonials/5 to będzie 5.
-  let newArray = (db.db.testimonials).filter(x => x.id == id);  //https://stackoverflow.com/questions/7364150/find-object-by-id-in-an-array-of-javascript-objects
-  newArray[0].author = req.body.author;
-  newArray[0].text = req.body.text;
+  let [testimonial] = db.db.testimonials.filter(x => x.id == id);  //https://stackoverflow.com/questions/7364150/find-object-by-id-in-an-array-of-javascript-objects
+  testimonial.author = req.body.author;
+  testimonial.text = req.body.text;
   res.json({ message: 'OK' });
 });
 
@@ -41,7 +43,9 @@ router.route('/testimonials').post((req, res) => {//dodajemy nowy element do tab
 });
 
 router.route('/testimonials/:id').delete((req, res) => {//usuwamy z tablicy wpis o podanym id.
-  db.db.testimonials.splice(req.params.id - 1, 1);
+  let id = req.params.id; //id z adresu np http://localhost:8000/api/testimonials/2 to będzie 2.
+  let testimonialIndex = db.db.testimonials.findIndex(x => x.id == id); //findIndex metoda zwraca 1szy znaleziony indeks elementu.
+  db.db.testimonials.splice(testimonialIndex, 1);
   res.json({ message: 'OK' });
 });
 
