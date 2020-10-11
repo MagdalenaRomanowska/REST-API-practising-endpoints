@@ -33,11 +33,10 @@ router.route('/testimonials/:id').put((req, res) => {//modyfikujemy atrybuty aut
 });
 
 router.route('/testimonials').post((req, res) => {//dodajemy nowy element do tablicy. Body przekazywane przez klienta będzie obiektem z atrybutami author i text. Id dodawanego elementu musisz losować.
-  let newId = uuidv4(); //losuję ID z uzyciem biblioteki uuid.
-  let newAuthor = req.body.author;
-  let newText = req.body.text;
-  let newObject = {};
-  newObject = { id: newId, author: newAuthor, text: newText };
+  let id = uuidv4(); //losuję ID z uzyciem biblioteki uuid.
+  let author = req.body.author;
+  let text = req.body.text;
+  let newObject = { id, author, text };
   db.db.testimonials.push(newObject);
   res.json({ message: 'OK' });
 });

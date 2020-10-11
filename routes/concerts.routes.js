@@ -22,13 +22,11 @@ router.route('/concerts/:id').put((req, res) => {//modyfikujemy atrybuty o pasuj
 });
 
 router.route('/concerts').post((req, res) => {//dodajemy nowy element do tablicy. 
-  let newId = uuidv4(); //losuję ID z uzyciem biblioteki uuid.
-  let newPerformer = req.body.performer;
-  let newGenre = req.body.genre;
-  let newObject = {};
-  newObject = { id: newId, performer: newPerformer, genre: newGenre };
+  let id = uuidv4(); //losuję ID z uzyciem biblioteki uuid.
+  let performer = req.body.performer;
+  let genre = req.body.genre;
+  let newObject = { id, performer, genre};
   db.db.concerts.push(newObject);
-  console.log('db.db.concerts:', db.db.concerts);
   res.json({ message: 'OK' });
 });
 

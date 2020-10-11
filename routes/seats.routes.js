@@ -22,11 +22,10 @@ router.route('/seats/:id').put((req, res) => {//modyfikujemy atrybuty  o pasują
 });
 
 router.route('/seats').post((req, res) => {//dodajemy nowy element do tablicy. 
-  let newId = uuidv4(); //losuję ID z uzyciem biblioteki uuid.
-  let newClient = req.body.client;
-  let newEmail = req.body.email;
-  let newObject = {};
-  newObject = { id: newId, client: newClient, email: newEmail };
+  let id = uuidv4(); //losuję ID z uzyciem biblioteki uuid.
+  let client = req.body.client;
+  let email = req.body.email;
+  let newObject = { id, client, email };
   db.db.seats.push(newObject);
   res.json({ message: 'OK' });
 });
