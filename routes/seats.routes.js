@@ -25,9 +25,16 @@ router.route('/seats').post((req, res) => {//dodajemy nowy element do tablicy.
   let id = uuidv4(); //losuję ID z uzyciem biblioteki uuid.
   let client = req.body.client;
   let email = req.body.email;
-  let newObject = { id, client, email };
-  db.db.seats.push(newObject);
-  res.json({ message: 'OK' });
+  let day = req.body.day;
+  let seat = req.body.seat;
+  let newObject = { id, client, email, day, seat };
+  let isSetReserved = db.db.seats.some(x => x.seat == seat && x.day == day); //zadanie submoduł 27.6: w przypadku, gdy wybrane miejsce jest zajęte na wybrany dzień, zwrócił komunikat o treści: { message: "The slot is already taken..." }. Koniecznie ustaw też odpowiedni kod statusu.
+  if (isSetReserved){
+    res.status(500).json({ message: 'The slot is already taken...' });
+  } else{
+    db.db.seats.push(newObject);
+    res.json({ message: 'OK' });
+  }
 });
 
 router.route('/seats/:id').delete((req, res) => {//usuwamy z tablicy wpis o podanym id.
