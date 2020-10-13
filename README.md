@@ -4,3 +4,13 @@
 ### **The project**
 - One can see this project here:
 [https://new-wave-festival-ticket-order.herokuapp.com/]
+
+### **Running the project**
+- One can run this project with command:
+```javascript
+yarn start 
+```
+or
+```javascript
+npm start 
+```
