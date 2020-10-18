@@ -1,3 +1,4 @@
+import io from 'socket.io-client'; //importujemy paczkę z node_modules. Możemy ograniczyć się do modułu odpowiedzialnego za możliwości klienta.
 import React from 'react';
 import { Button, Progress, Alert } from 'reactstrap';
 
@@ -5,10 +6,18 @@ import './SeatChooser.scss';
 
 class SeatChooser extends React.Component {
   
-  componentDidMount() {
+  componentDidMount() {//emisja jest w seats.routes.js
+    console.log('MADZIA:');
+
     const { loadSeats } = this.props;
     loadSeats(); //odświeżanie danych o zajętych miejscach.
-    this.interval = setInterval(loadSeats, 1000*120); // 1000*120 = 120 seconds.
+
+    this.socket = io((process.env.NODE_ENV === 'production') ? '/api' : 'http://localhost:8000/api');//Pamiętaj, że nasz klient może być na innym adresie niż serwer (localhost:3000 – w wersji developerskiej), a czasem na takim samym (localhost:8000 lub serwer Heroku – aplikacja po zbudowaniu). Koniecznie warunkuj połączenie od process.env.NODE_ENV. Jeśli jesteśmy w środowisku production, to niech Socket.IO automatycznie wybierze domyślny adres, w innej sytuacji wskaż jednak localhost:8000.
+    //linijka 11 - z config.js
+    this.socket.on('seatsUpdated', (seats) => {//przyjmuje zdarzenie od serwera.
+      const { loadSeatsData } = this.props;  
+      loadSeatsData(seats); //Wykrycie tego eventu powinno powodować wywołanie nowej funkcji (np. updateTasks).
+    });
   }
 
   isTaken = (seatId) => {
@@ -25,10 +34,6 @@ class SeatChooser extends React.Component {
     else if(isTaken(seatId)) return <Button key={seatId} className="seats__seat" disabled color="secondary">{seatId}</Button>;
     else return <Button key={seatId} color="primary" className="seats__seat" outline onClick={(e) => updateSeat(e, seatId)}>{seatId}</Button>;
   }
-
-  componentWillUnmount() { 
-    clearInterval(this.interval); 
-}
 
   render() {
 
