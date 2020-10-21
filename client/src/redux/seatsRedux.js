@@ -38,7 +38,7 @@ export const loadSeatsRequest = () => {
       dispatch(loadSeats(res.data));
       dispatch(endRequest({ name: 'LOAD_SEATS' }));
 
-    } catch(e) {
+    } catch (e) {
       dispatch(errorRequest({ name: 'LOAD_SEATS', error: e.message }));
     }
 
@@ -46,7 +46,6 @@ export const loadSeatsRequest = () => {
 };
 
 export const addSeatRequest = (seat) => {
-  console.log('seat:', seat);
   return async dispatch => {
 
     dispatch(startRequest({ name: 'ADD_SEAT' }));
@@ -56,7 +55,7 @@ export const addSeatRequest = (seat) => {
       dispatch(addSeat(res));
       dispatch(endRequest({ name: 'ADD_SEAT' }));
 
-    } catch(e) {
+    } catch (e) {
       dispatch(errorRequest({ name: 'ADD_SEAT', error: e.message }));
     }
 
@@ -74,16 +73,16 @@ const initialState = {
 
 export default function reducer(statePart = initialState, action = {}) {
   switch (action.type) {
-    case LOAD_SEATS: 
+    case LOAD_SEATS:
       return { ...statePart, data: [...action.payload] };
-    case ADD_SEAT: 
+    case ADD_SEAT:
       return { ...statePart, data: [...statePart.data, action.payload] }
     case START_REQUEST:
-      return { ...statePart, requests: {...statePart.requests, [action.payload.name]: { pending: true, error: null, success: false }} };
+      return { ...statePart, requests: { ...statePart.requests, [action.payload.name]: { pending: true, error: null, success: false } } };
     case END_REQUEST:
-      return { ...statePart, requests: { ...statePart.requests, [action.payload.name]: { pending: false, error: null, success: true }} };
+      return { ...statePart, requests: { ...statePart.requests, [action.payload.name]: { pending: false, error: null, success: true } } };
     case ERROR_REQUEST:
-      return { ...statePart, requests: { ...statePart.requests, [action.payload.name]: { pending: false, error: action.payload.error, success: false }} };
+      return { ...statePart, requests: { ...statePart.requests, [action.payload.name]: { pending: false, error: action.payload.error, success: false } } };
     default:
       return statePart;
   }

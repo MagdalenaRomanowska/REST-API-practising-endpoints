@@ -1,41 +1,70 @@
-const { v4: uuidv4 } = require('uuid'); //Do losowania id możesz użyć zewnętrznej biblioteki, np. uuid.
 const express = require('express');
 const router = express.Router();
-const {db} = require('../db.js');
 
-router.route('/concerts').get((req, res) => {//ma zwracać całą zawartość tablicy. W formacie JSON - https://expressjs.com/en/api.html
-  res.json(db.concerts);
+router.get('/concerts', async (req, res) => {
+  try {
+    res.json(await Concert.find());
+  }
+  catch(err) {
+    res.status(500).json({ message: err });
+  }
 });
 
-router.route('/concerts/:id').get((req, res) => { //zwracamy tylko jeden element tablicy, zgodny z :id.
-  let id = req.params.id; //id z adresu np http://localhost:8000/api/concerts/2 to będzie 2.
-  let [concert] = db.concerts.filter(x => x.id == id);
-  res.json(concert); //https://expressjs.com/en/api.html#res
+router.get('/concerts/:id', async (req, res) => {
+  try {
+    const dep = await Concert.findById(req.params.id);
+    if(!dep) res.status(404).json({ message: 'Not found' });
+    else res.json(dep);
+  }
+  catch(err) {
+    res.status(500).json({ message: err });
+  }
 });
 
-router.route('/concerts/:id').put((req, res) => {//modyfikujemy atrybuty o pasującym :id. 
-  let id = req.params.id; //id z adresu np http://localhost:8000/api/concerts/2 to będzie 2.
-  let [concert] = db.concerts.filter(x => x.id == id);  //https://stackoverflow.com/questions/7364150/find-object-by-id-in-an-array-of-javascript-objects
-  concert.performer = req.body.performer;
-  concert.genre = req.body.genre;
-  res.json({ message: 'OK' });
+router.put('/concerts/:id', async (req, res) => {
+  const { id, performer, genre, price, day, image } = req.body;
+  try {
+    const dep = await(Concert.findById(req.params.id));
+    if(dep) {
+      dep.id = id;
+      dep.performer = performer;
+      dep.genre = genre;
+      dep.price = price;
+      dep.day = day;
+      dep.image = image;
+      await dep.save();
+      res.json({ message: 'OK' });
+    }
+    else res.status(404).json({ message: 'Not found...' });
+  }
+  catch(err) {
+    res.status(500).json({ message: err });
+  }
 });
 
-router.route('/concerts').post((req, res) => {//dodajemy nowy element do tablicy. 
-  let id = uuidv4(); //losuję ID z uzyciem biblioteki uuid.
-  let performer = req.body.performer;
-  let genre = req.body.genre;
-  let newObject = { id, performer, genre};
-  db.concerts.push(newObject);
-  console.log('db.concerts MADZIA', db.concerts);
-  res.json({ message: 'OK' });
+router.post('/concerts', async (req, res) => {
+  try {
+    const { id, performer, genre, price, day, image } = req.body;
+    const newConcert = new Concert({ id: id, performer: performer, genre: genre, price: price, day: day, image: image });
+    await newConcert.save();
+    res.json({ message: 'OK' });
+  } catch(err) {
+    res.status(500).json({ message: err });
+  }
 });
 
-router.route('/concerts/:id').delete((req, res) => {//usuwamy z tablicy wpis o podanym id.
-  let id = req.params.id; //id z adresu np http://localhost:8000/api/concerts/2 to będzie 2.
-  let concertIndex = db.concerts.findIndex(x => x.id == id); //findIndex metoda zwraca 1szy znaleziony indeks elementu.
-  db.concerts.splice(concertIndex, 1);
-  res.json({ message: 'OK' });
+router.delete('/concerts/:id', async (req, res) => {
+  try {
+    const dep = await(Concert.findById(req.params.id));
+    if(dep) {
+      await Concert.deleteOne({ _id: req.params.id });
+      res.json({ message: 'OK' });
+    }
+    else res.status(404).json({ message: 'Not found...' });
+  }
+  catch(err) {
+    res.status(500).json({ message: err });
+  }
 });
 
 module.exports = router;
