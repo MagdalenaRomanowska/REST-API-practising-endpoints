@@ -4,7 +4,12 @@ const concertSchema = new mongoose.Schema({//W schemacie ustalamy, że dane powi
     //_id = jego wartość jest nadawana automatycznie przez MongoDB, więc powinna zawsze być poprawna. 
     //Dlatego też możemy go w ogóle pominąć w schemacie (zakomentowałam):
     // _id: { type: mongoose.Types.ObjectId, required: true }, //oczekiwany typ to ObjectId.
-    name: { type: String, required: true } //drugi to name i ma mieć wartość tekstową.
+    id: { type: String, required: true },
+    performer: { type: String, required: true }, 
+    genre: { type: String, required: true },
+    price: { type: String, required: true },
+    day: { type: String, required: true },
+    image: { type: String, required: true }
 });
 
 module.exports = mongoose.model('Concert', concertSchema);

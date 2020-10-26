@@ -4,7 +4,11 @@ const seatSchema = new mongoose.Schema({//W schemacie ustalamy, że dane powinny
     //_id = jego wartość jest nadawana automatycznie przez MongoDB, więc powinna zawsze być poprawna. 
     //Dlatego też możemy go w ogóle pominąć w schemacie (zakomentowałam):
     // _id: { type: mongoose.Types.ObjectId, required: true }, //oczekiwany typ to ObjectId.
-    name: { type: String, required: true } //drugi to name i ma mieć wartość tekstową.
+    id: { type: String, required: true },
+    day: { type: String, required: true },
+    seat: { type: String, required: true },
+    client: { type: String, required: true },
+    email: { type: String, required: true } //drugi to name i ma mieć wartość tekstową.
 });
 
 module.exports = mongoose.model('Seat', seatSchema);
