@@ -12,7 +12,6 @@ describe('POST /api/concerts', () => {
 
     it('/ should insert new document to db and return success', async () => {
         const res = await request(server).post('/api/concerts').send({ id: '01', performer: 'a1', genre: 'a2', price: 'a3', day: 'a4', image: 'a5', tickets: 'a6' });
-        // tym razem wraz z requestem wysyłane są również dane (body). 
         const newConcert = await Concert.find({ id: '01', performer: 'a1', genre: 'a2', price: 'a3', day: 'a4', image: 'a5', tickets: 'a6' });
         expect(res.status).to.be.equal(200);
         expect(res.body.message).to.be.equal('OK');

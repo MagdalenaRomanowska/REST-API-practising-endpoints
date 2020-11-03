@@ -3,7 +3,7 @@
     "start": "nodemon server.js",
     "testEslint": "eslint *.js */*.js",
     "build": "cd client && yarn install && yarn build",
-    "test": "set NODE_ENV=production && mocha --watch \"./{,!(node_modules)/**/}*t.test.js\"",
+    "test": "set NODE_ENV=production && mocha --watch \"./{,!(node_modules)/**/}*.test2.js\"",
     "test:watch": "onchange \"./**/*.js\" -i -k -- yarn test"
   },
   "dependencies": {
