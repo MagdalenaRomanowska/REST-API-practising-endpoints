@@ -1,7 +1,6 @@
 import io from 'socket.io-client'; //importujemy paczkę z node_modules. Możemy ograniczyć się do modułu odpowiedzialnego za możliwości klienta.
 import React from 'react';
 import { Button, Progress, Alert } from 'reactstrap';
-
 import './SeatChooser.scss';
 
 class SeatChooser extends React.Component {
@@ -15,11 +14,15 @@ class SeatChooser extends React.Component {
       const { loadSeatsData } = this.props;
       loadSeatsData(seats); //Wykrycie tego eventu powinno powodować wywołanie nowej funkcji (np. updateTasks).
     });
+    this.socket.on('ticketsUpdated', (tickets) => {//przyjmuje zdarzenie od serwera.
+      const { findFreeSeats } = this.props;
+      findFreeSeats(tickets); //Wykrycie tego eventu powinno powodować wywołanie nowej funkcji (np. updateTasks).
+    });
   }
 
   isTaken = (seatId) => {
     const { seats, chosenDay } = this.props;
-    return (seats.some(item => (item.seat === seatId && item.day === chosenDay)));
+    return (seats.some(item => (item.seat == seatId && item.day == chosenDay)));
   }
 
   prepareSeat = (seatId) => {
@@ -30,16 +33,18 @@ class SeatChooser extends React.Component {
     else return <Button key={seatId} color="primary" className="seats__seat" outline onClick={(e) => updateSeat(e, seatId)}>{seatId}</Button>;
   }
 
-  findTakenSeats = () => {
+  freeSeats = () => {
     const { seats, chosenDay } = this.props;
-    let seatsTaken = seats.filter(i => i.day === chosenDay);
+    let seatsTaken = seats.filter(i => i.day == chosenDay);
+    console.log('seats MADZIA', seats);
+    console.log('seatsTaken MADZIA', seatsTaken);
     let seatsTakenLength = seatsTaken.length;
-    return seatsTakenLength;
+    return 50 - seatsTakenLength;
   }
 
   render() {
 
-    const { findTakenSeats, prepareSeat } = this;
+    const { freeSeats, prepareSeat } = this;
     const { requests } = this.props;
 
     return (
@@ -50,7 +55,7 @@ class SeatChooser extends React.Component {
         { (requests['LOAD_SEATS'] && requests['LOAD_SEATS'].success) && <div className="seats">{[...Array(50)].map((x, i) => prepareSeat(i + 1))}</div>}
         { (requests['LOAD_SEATS'] && requests['LOAD_SEATS'].pending) && <Progress animated color="primary" value={50} />}
         { (requests['LOAD_SEATS'] && requests['LOAD_SEATS'].error) && <Alert color="warning">Couldn't load seats...</Alert>}
-        <h3>Free seats: {50 - findTakenSeats()}/50
+        <h3>Free seats: {freeSeats()}/50
         </h3>
       </div>
     )

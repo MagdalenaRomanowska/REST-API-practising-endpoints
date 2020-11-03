@@ -50,3 +50,5 @@ app.get('*', (req, res) => { //endpoint, który będzie zwracał naszą aplikacj
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found...' });
 });
+
+module.exports = server;

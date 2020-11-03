@@ -1,8 +1,18 @@
 const Concert = require('../models/concert.model');
+const Seat = require('../models/seat.model');
 
 exports.getAll = async (req, res) => {
   try {
-    res.json(await Concert.find());
+    let concerts = await Concert.find();
+    let newConcertWithTickets = [];
+    for(let element of concerts){
+      const newConcert = { id: element.id, performer: element.performer, genre: element.genre, price: element.price, day: element.day, image: element.image, tickets: element.tickets };
+        //znaleźć wszystkie miejsca na dany dzień z danego koncertu, policzyć ile jest elem takiej tablicy, odjąć od 50,
+        let freeTicketsForOneDay = 50 - await Seat.find( {day:{$eq: element.day} } ).countDocuments();
+        newConcert.tickets = freeTicketsForOneDay; //przypisać do newConcert.tickets
+        newConcertWithTickets.push(newConcert);
+    }
+    res.json(newConcertWithTickets);
   }
   catch(err) {
     res.status(500).json({ message: err });
