@@ -14,3 +14,21 @@ or
 ```javascript
 npm start 
 ```
+
+### **Running tests**
+- One can run tests with command:
+```javascript
+yarn test  
+```
+or
+```javascript
+npm test 
+```
+or
+```javascript
+yarn test:watch
+```
+or
+```javascript
+npm test:watch
+```
