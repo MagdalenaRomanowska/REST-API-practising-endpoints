@@ -4,6 +4,7 @@ const app = express();
 var cors = require('cors');
 const mongoose = require('mongoose');//Mongoose importuje mongodb wewnątrz siebie.
 require('dotenv').config();
+const helmet = require('helmet');
 
 // connects our backend code with the database. Wybór bazy możemy określić od razu w adresie (mongodb://localhost:27017/companyDB).
 //mongoose.connect('mongodb://localhost:27017/festivalDB', { useNewUrlParser: true, useUnifiedTopology: true });//kod otwiera połączenie z serwerem bazy danych (mongodb://localhost:27017/) i przypisuje go do obiektu mongoose.connection.
@@ -35,6 +36,7 @@ const testimonialsRoutes = require('./routes/testimonials.routes');
 const concertsRoutes = require('./routes/concerts.routes');
 const seatsRoutes = require('./routes/seats.routes');
 
+app.use(helmet()); //odpowiednie ustawienie nagłówków HTTP, tak aby nasz serwer był mniej podatny na ataki. 
 app.use(cors());//middleware. Stoi za funkcjonalnością wykonywania żądań AJAXowych. Jedną z jego ważnych opcji jest również możliwość ograniczania połączeń. Możemy np. ustawić, że nasze API pozwala na połączenie tylko i wyłączne z konkretnej domeny oraz z konkretnych metod, albo – co istotne dla publicznych API – z każdej domeny.
 app.use(express.urlencoded({ extended: false }));//Jeśli chcesz mieć obsługę formularzy x-www-form-urlencoded, dodaj middleware express.urlencoded.
 app.use(express.json()); //Jeśli dodatkowo chcesz odbierać dane w formacie JSON (mogą być wysyłane za pomocą form-data), to również express.json.
