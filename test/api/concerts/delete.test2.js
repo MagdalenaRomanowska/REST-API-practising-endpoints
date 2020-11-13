@@ -10,8 +10,8 @@ const request = chai.request;
 
 describe('DELETE /api/concerts', () => {
     let resultId;
-    before(async () => {//dajemy jakieś dane do usuwania.
-        const testConcertOne = new Concert({ id: '5d9f11', performer: 'a1', genre: 'a2', price: 'a3', day: 'a4', image: 'a5', tickets: 'a6' });
+    beforeEach(async () => {//dajemy jakieś dane do usuwania.
+        const testConcertOne = new Concert({ id: '5d9f11', performer: 'a1', genre: 'Rock', price: '3', day: '1', image: '/img/uploads/1fsd324fsdg.jpg', tickets: 'a6' });
         resultId = await testConcertOne.save();
     });
 
@@ -22,5 +22,5 @@ describe('DELETE /api/concerts', () => {
         expect(res.body.message).to.be.equal('OK');
         expect(newConcert).to.be.empty;//sprawdza, czy element rzeczywiście jest usunięty z bazy.
     });
-
+    
 });

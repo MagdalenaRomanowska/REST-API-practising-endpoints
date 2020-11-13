@@ -54,31 +54,19 @@ exports.put = async (req, res) => {
         res.status(500).json({ message: err });
     }
 };
-//Bez sanitize:
+
 exports.post = async (req, res) => {
     try {
-        const { id, author, text } = req.body;
-        const newTestimonial = new Testimonial({ id: id, author: author, text: text });
+        const cleanId = sanitize(req.body.id);
+        const cleanAuthor = sanitize(req.body.author);
+        const cleanIdText = sanitize(req.body.text);
+        const newTestimonial = new Testimonial({ id: cleanId, author: cleanAuthor, text: cleanIdText });
         await newTestimonial.save();
         res.json({ message: 'OK' });
     } catch (err) {
         res.status(500).json({ message: err });
     }
 };
-
-//użycie sanitize:
-// exports.post = async (req, res) => {
-//     try {
-//         const cleanId = sanitize(req.body.id);
-//         const cleanAuthor = sanitize(req.body.author);
-//         const cleanIdText = sanitize(req.body.text);
-//         const newTestimonial = new Testimonial({ id: cleanId, author: cleanAuthor, text: cleanIdText });
-//         await newTestimonial.save();
-//         res.json({ message: 'OK' });
-//     } catch (err) {
-//         res.status(500).json({ message: err });
-//     }
-// };
 
 exports.delete = async (req, res) => {
     try {
