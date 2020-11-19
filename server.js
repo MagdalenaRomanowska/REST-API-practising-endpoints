@@ -8,7 +8,7 @@ const helmet = require('helmet');
 
 // connects our backend code with the database. Wybór bazy możemy określić od razu w adresie (mongodb://localhost:27017/companyDB).
 //mongoose.connect('mongodb://localhost:27017/festivalDB', { useNewUrlParser: true, useUnifiedTopology: true });//kod otwiera połączenie z serwerem bazy danych (mongodb://localhost:27017/) i przypisuje go do obiektu mongoose.connection.
-console.log('process.env.DB_USER ='+process.env.DB_USER +' process.env.DB_PASS='+process.env.DB_PASS);
+//console.log('process.env.DB_USER ='+process.env.DB_USER +' process.env.DB_PASS='+process.env.DB_PASS);
 mongoose.connect('mongodb+srv://' + process.env.DB_USER + ':' + process.env.DB_PASS + '@cluster0.jxxwd.mongodb.net/festivalDB?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });//kod otwiera połączenie z serwerem bazy danych (mongodb://localhost:27017/) i przypisuje go do obiektu mongoose.connection.
 
 const db = mongoose.connection;//Skracamy sobie dostęp do naszej bazy danych przypisując referencję do stałej db.
