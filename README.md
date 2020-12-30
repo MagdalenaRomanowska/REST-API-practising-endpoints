@@ -15,6 +15,8 @@ or
 npm start 
 ```
 
+and add file .env (with DB_USER and DB_PASS) - remember to rename it to '.env' instead of 'env'.
+
 ### **Running tests**
 - One can run tests with command:
 ```javascript

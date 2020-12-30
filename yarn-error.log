@@ -1,0 +1,58 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js install
+
+PATH: 
+  C:\Python27\;C:\Python27\Scripts;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\Git\cmd;C:\Users\magda\AppData\Local\Microsoft\WindowsApps;C:\Users\magda\AppData\Roaming\npm;C:\Users\magda\AppData\Local\Yarn\bin;C:\Users\magda\AppData\Local\Programs\Git\cmd;C:\Users\magda\AppData\Local\Programs\Microsoft VS Code\bin
+
+Yarn version: 
+  1.22.5
+
+Node version: 
+  14.15.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: getaddrinfo ENOTFOUND registry.yarnpkg.com
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:67:26)
+
+npm manifest: 
+  {
+    "scripts": {
+      "start": "nodemon server.js",
+      "testEslint": "eslint *.js */*.js",
+      "build": "cd client && yarn install && yarn build",
+      "test": "set NODE_ENV=production && mocha --watch \"./{,!(node_modules)/**/}*.test2.js\"",
+      "test:watch": "onchange \"./**/*.js\" -i -k -- yarn test"
+    },
+    "dependencies": {
+      "body-parser": "^1.19.0",
+      "chai": "4.2.0",
+      "chai-http": "4.3.0",
+      "cors": "^2.8.5",
+      "dotenv": "^8.2.0",
+      "express": "^4.17.1",
+      "mocha": "^6.2.1",
+      "mongodb": "3.3.2",
+      "mongoose": "5.7.1",
+      "nodemon": "^2.0.4",
+      "onchange": "6.1.0",
+      "socket.io": "2.2.0",
+      "uuid": "^8.3.1",
+      "uuid-random": "^1.3.2"
+    },
+    "devDependencies": {
+      "@typescript-eslint/eslint-plugin": "^4.4.0",
+      "@typescript-eslint/parser": "^4.4.0",
+      "eslint": "^5.16.0",
+      "eslint-plugin-react": "^7.21.4",
+      "husky": "^4.3.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
