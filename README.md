@@ -3,7 +3,7 @@
 
 ### **The project**
 - One can see this project here:
-[https://new-wave-festival-ticket-order.herokuapp.com/]
+[https://new-wave-festival-tickets.herokuapp.com/]
 
 ### **Running the project**
 - One can run this project with command:
